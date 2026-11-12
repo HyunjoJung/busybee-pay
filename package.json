@@ -1,0 +1,31 @@
+{
+  "name": "busybee-pay",
+  "version": "1.0.0",
+  "description": "BusyBee Pay: an AI inbox agent that turns customer emails into PayPal invoices, payment-status answers and reminders (PayPal Agent Toolkit + Google Gemini).",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "check": "node scripts/check-setup.mjs",
+    "smoke": "node scripts/smoke-test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "paypal",
+    "agent-toolkit",
+    "invoicing",
+    "gemini",
+    "ai-agent",
+    "logistics"
+  ],
+  "author": "Hyunjo Jung",
+  "license": "MIT",
+  "dependencies": {
+    "@paypal/agent-toolkit": "1.11.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.3",
+    "zod-to-json-schema": "^3.25.2"
+  }
+}

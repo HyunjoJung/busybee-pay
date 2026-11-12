@@ -1,0 +1,8 @@
+{
+  "business_name": "BusyBee Freight (demo merchant)",
+  "industry": "Small freight forwarder handling air, ocean and road shipments for SMB exporters",
+  "currency_code": "USD",
+  "reply_signature": "BusyBee Freight Operations",
+  "invoice_note": "Thank you for choosing BusyBee Freight. This invoice covers the quoted shipment; pickup is booked once payment is received.",
+  "invoice_terms": "Payment due on receipt. Quote valid for 7 days."
+}

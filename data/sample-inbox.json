@@ -1,0 +1,47 @@
+[
+  {
+    "id": "e1",
+    "from_name": "Mina Park",
+    "from_email": "mina.park@hanriver-ceramics.example",
+    "to": "ops@busybee-freight.example",
+    "subject": "Quote request: 2 pallets of ceramics, Busan to Los Angeles (air)",
+    "received_at": "2026-11-12T09:14:00+09:00",
+    "body": "Hello BusyBee team,\n\nWe would like a quote to ship 2 pallets of handmade ceramic tableware from our warehouse in Busan to our retail partner in Los Angeles. Total weight is about 480 kg. Air freight please - the goods should be ready for pickup on November 18.\n\nPlease send the invoice to our accounts payable team at ap@hanriver-ceramics.example so they can pay right away.\n\nThank you,\nMina Park\nLogistics Manager, Han River Ceramics"
+  },
+  {
+    "id": "e2",
+    "from_name": "Jonas Weber",
+    "from_email": "j.weber@rheintal-maschinen.example",
+    "to": "ops@busybee-freight.example",
+    "subject": "Price for spare parts Incheon -> Frankfurt",
+    "received_at": "2026-11-12T10:02:00+09:00",
+    "body": "Hi,\n\ncould you send me a price for shipping spare parts for our packaging machines from Incheon to Frankfurt by air? They need to arrive before December 5.\n\nRegards,\nJonas Weber\nRheintal Maschinenbau GmbH"
+  },
+  {
+    "id": "e3",
+    "from_name": "Carlos Ruiz",
+    "from_email": "carlos@sol-coffee.example",
+    "to": "ops@busybee-freight.example",
+    "subject": "LCL quote: espresso machines Busan to Long Beach",
+    "received_at": "2026-11-12T11:37:00+09:00",
+    "body": "Hello,\n\nPlease quote LCL ocean freight for 6 CBM of espresso machines (4 pallets, about 1,900 kg) from Busan to Long Beach. Cargo is ready on November 20.\n\nInvoice to finance@sol-coffee.example please.\n\nBest,\nCarlos Ruiz\nSol Coffee Supply Co."
+  },
+  {
+    "id": "e4",
+    "from_name": "Mina Park",
+    "from_email": "mina.park@hanriver-ceramics.example",
+    "to": "ops@busybee-freight.example",
+    "subject": "Re: Invoice for the Busan - LA shipment",
+    "received_at": "2026-11-12T15:48:00+09:00",
+    "body": "Hi team,\n\nOur finance department says they paid your PayPal invoice for the Busan to LA air shipment. Could you confirm that you received the payment so we can confirm the pickup?\n\nBest,\nMina"
+  },
+  {
+    "id": "e5",
+    "from_name": "Trade Events Weekly",
+    "from_email": "newsletter@trade-events.example",
+    "to": "ops@busybee-freight.example",
+    "subject": "Last chance: early-bird passes for Logistics Expo 2027",
+    "received_at": "2026-11-12T16:05:00+09:00",
+    "body": "Early-bird pricing for Logistics Expo 2027 ends Friday. Register now to save on passes and meet 400+ exhibitors.\n\nUnsubscribe at any time."
+  }
+]

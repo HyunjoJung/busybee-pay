@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BusyBee Pay - AI inbox agent for PayPal invoicing</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l12 7v14l-12 7-12-7V9z' fill='%23f5b301'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2l12 7v14l-12 7-12-7V9z" fill="#f5b301" /><path d="M10 13h12M10 17h12M10 21h12" stroke="#1d1d1b" stroke-width="2" stroke-linecap="round" /></svg>
+        <div>
+          <h1>BusyBee Pay</h1>
+          <p>AI inbox agent that turns customer emails into PayPal invoices</p>
+        </div>
+      </div>
+      <div class="chips" id="setup-chips"></div>
+    </header>
+
+    <main class="layout">
+      <section class="col inbox">
+        <div class="col-head">
+          <h2>Inbox</h2>
+          <button class="btn ghost small" id="btn-paste">+ Paste email</button>
+        </div>
+        <ul id="email-list" class="email-list"></ul>
+      </section>
+
+      <section class="col detail" id="detail">
+        <div class="empty">Select an email to start.</div>
+      </section>
+
+      <section class="col side">
+        <div class="tabs">
+          <button class="tab active" data-tab="invoices">PayPal invoices</button>
+          <button class="tab" data-tab="agent">Ask BusyBee</button>
+        </div>
+        <div class="tab-body" id="tab-invoices">
+          <div class="col-head sub">
+            <span class="muted" id="inv-updated">Sandbox</span>
+            <button class="btn ghost small" id="btn-refresh-invoices">Refresh</button>
+          </div>
+          <ul id="invoice-list" class="invoice-list"></ul>
+        </div>
+        <div class="tab-body hidden" id="tab-agent">
+          <div id="chat" class="chat">
+            <div class="msg bot">Hi! I can look up PayPal invoices and payments for you. Try: <em>"Which invoices are still unpaid?"</em></div>
+          </div>
+          <form id="chat-form" class="chat-form">
+            <input id="chat-input" autocomplete="off" placeholder="Ask about invoices, payments, reminders..." />
+            <button class="btn primary" type="submit">Send</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="paste-dialog">
+      <form method="dialog" id="paste-form" class="paste-form">
+        <h3>Paste a customer email</h3>
+        <div class="row2">
+          <label>From name<input name="from_name" placeholder="Jane Doe" /></label>
+          <label>From email<input name="from_email" placeholder="jane@company.example" /></label>
+        </div>
+        <label>Subject<input name="subject" placeholder="Quote request" /></label>
+        <label>Body<textarea name="body" rows="9" required placeholder="Hi, please quote 3 pallets (750 kg) from Busan to Los Angeles by air..."></textarea></label>
+        <div class="actions">
+          <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+          <button class="btn primary" value="add" id="paste-submit">Add to inbox</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

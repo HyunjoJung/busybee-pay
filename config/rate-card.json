@@ -1,0 +1,67 @@
+{
+  "currency_code": "USD",
+  "notes": "Demo rate card. Every number used in a quote comes from this file, so a merchant can edit prices without touching code.",
+  "lanes": [
+    {
+      "id": "KR-BUS_US-LAX_AIR",
+      "label": "Busan, KR -> Los Angeles, US (Air)",
+      "origin": "Busan, South Korea",
+      "destination": "Los Angeles, California, United States",
+      "mode": "air",
+      "transit_time": "3-5 days",
+      "charges": [
+        { "name": "Air freight", "basis": "per_kg", "rate": 4.1, "minimum": 250 },
+        { "name": "Origin pickup & export handling", "basis": "per_pallet", "rate": 35 },
+        { "name": "Export customs filing", "basis": "per_shipment", "rate": 45 }
+      ]
+    },
+    {
+      "id": "KR-ICN_DE-FRA_AIR",
+      "label": "Incheon, KR -> Frankfurt, DE (Air)",
+      "origin": "Incheon / Seoul, South Korea",
+      "destination": "Frankfurt am Main, Germany",
+      "mode": "air",
+      "transit_time": "2-4 days",
+      "charges": [
+        { "name": "Air freight", "basis": "per_kg", "rate": 4.6, "minimum": 280 },
+        { "name": "Origin pickup & export handling", "basis": "per_pallet", "rate": 35 },
+        { "name": "Export customs filing", "basis": "per_shipment", "rate": 45 }
+      ]
+    },
+    {
+      "id": "KR-BUS_US-LGB_OCEAN",
+      "label": "Busan, KR -> Long Beach, US (Ocean LCL)",
+      "origin": "Busan, South Korea",
+      "destination": "Long Beach / Los Angeles port, California, United States",
+      "mode": "ocean",
+      "transit_time": "14-18 days",
+      "charges": [
+        { "name": "Ocean freight (LCL)", "basis": "per_cbm", "rate": 68, "minimum": 150 },
+        { "name": "Container freight station handling", "basis": "per_cbm", "rate": 18 },
+        { "name": "Export customs filing", "basis": "per_shipment", "rate": 45 }
+      ]
+    },
+    {
+      "id": "US-LAX_US-CHI_ROAD",
+      "label": "Los Angeles, US -> Chicago, US (Road LTL)",
+      "origin": "Los Angeles, California, United States",
+      "destination": "Chicago, Illinois, United States",
+      "mode": "road",
+      "transit_time": "4-6 days",
+      "charges": [
+        { "name": "Road freight (LTL)", "basis": "per_pallet", "rate": 165, "minimum": 220 },
+        { "name": "Liftgate delivery", "basis": "per_shipment", "rate": 60 }
+      ]
+    }
+  ],
+  "surcharges": [
+    { "name": "Fuel surcharge", "basis": "percent_of", "applies_to": ["Air freight", "Ocean freight (LCL)", "Road freight (LTL)"], "rate": 12 }
+  ],
+  "basis_quantity_fields": {
+    "per_kg": "weight_kg",
+    "per_pallet": "pallets",
+    "per_cbm": "volume_cbm",
+    "per_shipment": null
+  }
+}
+
