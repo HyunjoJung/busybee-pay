@@ -4,7 +4,7 @@
 
 Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com/) with the official **PayPal Agent Toolkit** (`@paypal/agent-toolkit`, PayPal Invoicing API in the sandbox) and **Google Gemini** (free AI Studio API key).
 
-> Demo video: _coming soon_
+> **Demo video (1:47):** https://youtu.be/3j60IWMPs6Q
 
 ![Quote approved: PayPal invoice created, sent and tracked](docs/screenshot-invoice.png)
 
