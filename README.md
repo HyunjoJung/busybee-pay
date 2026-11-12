@@ -70,7 +70,7 @@ Design choices:
 
 - Node.js 20+, Express, vanilla HTML/CSS/JS (no build step)
 - [`@paypal/agent-toolkit`](https://www.npmjs.com/package/@paypal/agent-toolkit) 1.11 – PayPal Invoicing + Transaction Search APIs (sandbox)
-- Google Gemini API (`gemini-3.5-flash`, automatic fallback to `gemini-flash-lite-latest` when busy) – structured output + function calling
+- Google Gemini API – `gemini-flash-lite-latest` by default (fast and generous on the free tier), automatic fallback to `gemini-3.1-flash-lite` and `gemini-3.5-flash` when a model is busy or rate-limited – structured output + function calling
 - Everything runs locally; state is a JSON file in `data/runtime/`
 
 ## Run it yourself
@@ -133,7 +133,7 @@ To start over, `POST /api/reset` (or delete `data/runtime/state.json`). Invoices
 - `config/rate-card.json` – lanes, charge bases (`per_kg`, `per_pallet`, `per_cbm`, `per_shipment`), minimums and percentage surcharges. The engine reads everything from here; which quantities to ask a customer for is derived from the lane's charge bases.
 - `config/business.json` – merchant name, reply signature, invoice terms.
 - `data/sample-inbox.json` – demo emails (fictional companies, `.example` domains).
-- `.env` – `GEMINI_MODEL` / `GEMINI_FALLBACK_MODELS` to switch models.
+- `.env` – `GEMINI_MODEL` / `GEMINI_FALLBACK_MODELS` to switch models. Free-tier keys have per-model daily limits; when one model returns 429/503 the next one is used automatically.
 
 ## Project structure
 
