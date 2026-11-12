@@ -6,7 +6,7 @@ Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com/) with
 
 > Demo video: _coming soon_
 
-![BusyBee Pay screenshot](docs/screenshot-invoice.png)
+![Quote approved: PayPal invoice created, sent and tracked](docs/screenshot-invoice.png)
 
 ---
 
@@ -38,6 +38,10 @@ Plus:
 - **PayPal invoices panel** – live list of sandbox invoices and statuses (`list_invoices`).
 - **Ask BusyBee** – a chat agent where Gemini calls PayPal Agent Toolkit tools itself (function calling): *"Which invoices are still unpaid?"*, *"Did Sol Coffee pay?"*, *"Send a reminder for the oldest unpaid invoice."* Read tools run immediately; **write tools (reminders, cancellations) are queued for human approval**.
 - **Paste any email** into the inbox to try your own text.
+
+| Payment question answered from live PayPal data | Ask BusyBee: Gemini calls PayPal tools, writes wait for approval |
+| --- | --- |
+| ![Payment lookup](docs/screenshot-payment-lookup.png) | ![Agent chat](docs/screenshot-agent.png) |
 
 ## How it works
 

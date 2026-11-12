@@ -218,7 +218,7 @@ function renderDetail(error) {
         <h3>Reply draft <span class="src">Gemini · facts only</span></h3>
         <div class="reply-subject">${esc(t.reply.subject)}</div>
         <div class="reply-body">${esc(t.reply.body)}</div>
-        <div style="margin-top:8px"><button class="btn ghost small" id="btn-copy">Copy reply</button></div>
+        <div style="margin-top:8px;display:flex;gap:8px"><button class="btn ghost small" id="btn-copy">Copy reply</button><button class="btn ghost small" id="btn-redraft" ${state.busy ? 'disabled' : ''}>${state.busy === 'redraft' ? '<span class="spinner"></span>' : 'Re-draft with latest PayPal status'}</button></div>
       </div>`;
     }
     html += '</div>';
@@ -228,6 +228,7 @@ function renderDetail(error) {
   $('#btn-analyze')?.addEventListener('click', () => run('analyze', `/api/emails/${e.id}/analyze`));
   $('#btn-approve')?.addEventListener('click', () => run('approve', `/api/emails/${e.id}/approve`));
   $('#btn-refresh-inv')?.addEventListener('click', () => run('refresh', `/api/emails/${e.id}/refresh`));
+  $('#btn-redraft')?.addEventListener('click', () => run('redraft', `/api/emails/${e.id}/redraft`));
   $('#btn-copy')?.addEventListener('click', async () => {
     await navigator.clipboard.writeText(`Subject: ${t.reply.subject}\n\n${t.reply.body}`).catch(() => {});
     toast('Reply copied');
@@ -305,10 +306,11 @@ $('#chat-form').addEventListener('submit', async (ev) => {
   try {
     const out = await api('/api/agent', { method: 'POST', body: { message, history: state.chat } });
     thinking.remove();
-    if (out.steps?.length) addMsg('tools', out.steps.map((s) => `▸ ${esc(s.tool)}(${esc(JSON.stringify(s.args))})`).join('\n'));
+    const short = (o) => { const s = JSON.stringify(o); return s.length > 110 ? s.slice(0, 107) + '...' : s; };
+    if (out.steps?.length) addMsg('tools', out.steps.map((s) => `▸ <b>${esc(s.tool)}</b> ${esc(short(s.args))}`).join('\n'));
     addMsg('bot', esc(out.text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'));
     for (const p of out.pending || []) {
-      const div = addMsg('pending', `<b>Approval needed:</b> ${esc(p.tool)} ${esc(JSON.stringify(p.args))}<div class="actions"><button class="btn primary small" data-act="approve">Approve</button><button class="btn ghost small" data-act="reject">Reject</button></div>`);
+      const div = addMsg('pending', `<b>Approval needed:</b> ${esc(p.tool)} · ${esc(p.args.invoice_id || '')}${p.args.note ? `<small>${esc(p.args.note.slice(0, 140))}</small>` : ''}<div class="actions"><button class="btn primary small" data-act="approve">Approve</button><button class="btn ghost small" data-act="reject">Reject</button></div>`);
       div.addEventListener('click', async (e2) => {
         const act = e2.target.dataset?.act;
         if (!act) return;

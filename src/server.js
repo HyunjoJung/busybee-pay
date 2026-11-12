@@ -33,6 +33,7 @@ app.post(
 app.post('/api/emails/:id/analyze', wrap(async (req) => workflow.analyze(req.params.id)));
 app.post('/api/emails/:id/approve', wrap(async (req) => workflow.approve(req.params.id)));
 app.post('/api/emails/:id/refresh', wrap(async (req) => workflow.refreshInvoice(req.params.id)));
+app.post('/api/emails/:id/redraft', wrap(async (req) => workflow.redraft(req.params.id)));
 
 app.get('/api/invoices', wrap(async () => paypal.listInvoices()));
 app.get('/api/invoices/:id', wrap(async (req) => paypal.getInvoice(req.params.id)));

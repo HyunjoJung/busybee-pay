@@ -80,7 +80,7 @@ export async function analyze(emailId) {
   }
 
   const status = proposal.requires_approval ? 'awaiting_approval' : proposal.type === 'no_action' ? 'no_action' : 'replied_draft';
-  const thread = store.updateThread(emailId, { status, analysis, quote, proposal, lookup, reply, invoice: null, timeline, paypal_trace: lookup?.trace || [] });
+  const thread = store.updateThread(emailId, { status, analysis, quote, proposal, lookup, reply, reply_facts: facts || null, invoice: null, timeline, paypal_trace: lookup?.trace || [] });
   store.logActivity({ type: 'analyzed', email_id: emailId, intent: analysis.intent, summary: proposal.title });
   return thread;
 }
@@ -110,7 +110,7 @@ export async function approve(emailId) {
       note,
     });
     const facts = {
-      situation: 'Quote accepted internally; PayPal invoice created and sent. Share the quote breakdown and the payment link.',
+      situation: 'We priced the requested shipment and sent a PayPal invoice for it. Share the quote breakdown and the payment link; pickup is booked once the invoice is paid.',
       route: thread.quote.lane_label,
       transit_time: thread.quote.transit_time,
       quote_lines: thread.quote.lines.map((l) => ({ item: l.name, detail: l.description, amount: l.line_total })),
@@ -123,6 +123,7 @@ export async function approve(emailId) {
     };
     const { reply } = await draftReply({ email, analysis: thread.analysis, business, facts });
     const updated = store.updateThread(emailId, {
+      reply_facts: facts,
       status: 'invoiced',
       invoice,
       reply,
@@ -152,4 +153,29 @@ export async function refreshInvoice(emailId) {
   if (!thread?.invoice?.id) throw new Error('No invoice on this thread');
   const invoice = await paypal.getInvoice(thread.invoice.id);
   return store.updateThread(emailId, { invoice });
+}
+
+/** Re-draft the customer reply from the facts stored on the thread (e.g. after editing the prompt or refreshing status). */
+export async function redraft(emailId) {
+  const email = store.getEmail(emailId);
+  const thread = email?.thread;
+  let facts = thread?.reply_facts ? { ...thread.reply_facts } : null;
+  if (!facts && thread?.invoice && thread?.quote) {
+    const business = loadBusiness();
+    facts = {
+      situation: 'We priced the requested shipment and sent a PayPal invoice for it. Share the quote breakdown and the payment link; pickup is booked once the invoice is paid.',
+      route: thread.quote.lane_label,
+      transit_time: thread.quote.transit_time,
+      quote_lines: thread.quote.lines.map((l) => ({ item: l.name, detail: l.description, amount: l.line_total })),
+      total: thread.quote.total,
+      currency: thread.quote.currency_code,
+      paypal_invoice_number: thread.invoice.number,
+      payment_link: thread.invoice.payer_link,
+      terms: business.invoice_terms,
+    };
+  }
+  if (!facts) throw new Error('Nothing to re-draft for this email yet.');
+  if (thread.invoice) facts.paypal_invoice_status = thread.invoice.status;
+  const { reply } = await draftReply({ email, analysis: thread.analysis, business: loadBusiness(), facts });
+  return store.updateThread(emailId, { reply });
 }

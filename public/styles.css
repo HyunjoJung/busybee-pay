@@ -137,7 +137,9 @@ table.lines .desc { color: var(--muted); font-size: 12px; }
 .msg { padding: 9px 12px; border-radius: 12px; max-width: 92%; line-height: 1.45; white-space: pre-wrap; }
 .msg.user { align-self: flex-end; background: var(--pp-blue); color: #fff; }
 .msg.bot { align-self: flex-start; background: #f3f1ea; }
-.msg.tools { align-self: stretch; background: #fff; border: 1px dashed #c9c4b5; font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: #4a4943; }
+.msg.tools { align-self: stretch; background: #fff; border: 1px dashed #c9c4b5; font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: #4a4943; overflow-wrap: anywhere; }
+.msg.tools b { color: var(--pp-blue); }
+.msg.pending small { display: block; color: #6b6a66; margin-top: 4px; }
 .msg.pending { align-self: stretch; background: var(--honey-soft); border: 1px solid #f3d27a; }
 .msg.pending .actions { display: flex; gap: 8px; margin-top: 8px; }
 .chat-form { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); position: sticky; bottom: 0; background: var(--panel); }

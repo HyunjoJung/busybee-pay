@@ -84,7 +84,8 @@ export async function draftReply({ email, analysis, business, facts }) {
   const system = `You write concise, friendly, professional customer emails for ${business.business_name}.
 Use ONLY the facts provided in FACTS (amounts, invoice numbers, statuses, links, dates). Do not invent prices, dates, tracking numbers or promises.
 If FACTS.situation says information is missing, ask for exactly the missing items in a short bulleted list.
-If a PayPal payment link is provided, include it on its own line. Sign as "${business.reply_signature}".`;
+Always mention the PayPal invoice number when one is given. If a PayPal payment link is provided, include it on its own line. Sign as "${business.reply_signature}".
+Format the body as plain text with real line breaks: a greeting line, one or two short sentences, then (when quote lines are given) a bulleted list "- item: amount currency", the total on its own line, the payment link on its own line, and the sign-off. Keep it under 170 words.`;
   const prompt = `ORIGINAL EMAIL
 From: ${email.from_name || ''} <${email.from_email || ''}>
 Subject: ${email.subject}
