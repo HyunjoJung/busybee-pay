@@ -124,7 +124,7 @@ npm start
 5. **Agent chat.** Approve the *Sol Coffee* quote too (leave it unpaid), then open **Ask BusyBee** and ask *"Which invoices are still unpaid? Send a reminder for the oldest one."* You will see the PayPal tool calls; the reminder waits for your **Approve** click.
 6. **Your own email.** Use **+ Paste email** to try any text (e.g. a quote for 3 pallets, 750 kg, Los Angeles to Chicago by road).
 
-Optional end-to-end script (server must be running): `npm run smoke`.
+Optional end-to-end script (server must be running): `npm run smoke`. Unit tests for the quote engine: `npm test`.
 
 To start over, `POST /api/reset` (or delete `data/runtime/state.json`). Invoices already created stay in your sandbox.
 
@@ -148,8 +148,9 @@ src/
   quote.js      deterministic quote engine (rate card -> invoice lines)
   store.js      JSON-file state + activity log
 public/         single-page UI
+test/           unit tests for the quote engine (npm test)
 config/         rate card + merchant profile
-scripts/        check-setup, smoke-test
+scripts/        check-setup, e2e-demo (end-to-end smoke run)
 ```
 
 ## Limitations
@@ -168,3 +169,5 @@ scripts/        check-setup, smoke-test
 ## License
 
 [MIT](LICENSE)
+
+

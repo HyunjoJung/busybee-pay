@@ -99,20 +99,32 @@ function kv(label, value) {
 }
 
 function pipelineHtml(thread) {
-  const intent = thread?.analysis?.intent;
-  const stages = [
-    ['Gemini triage', Boolean(thread)],
-    [intent === 'quote_request' ? 'Rate-card quote' : 'PayPal lookup', Boolean(thread && (thread.quote || thread.lookup || thread.proposal))],
-    ['Human approval', Boolean(thread && thread.proposal && !thread.proposal.requires_approval)],
-    ['PayPal action', Boolean(thread && (thread.invoice || thread.status === 'reminded' || thread.lookup))],
-    ['Reply draft', Boolean(thread && thread.reply)],
-  ];
-  const firstOpen = stages.findIndex(([, done]) => !done);
+  const p = thread?.proposal || {};
+  const done = (cond) => Boolean(cond);
+  let stages;
+  if (p.type === 'create_send_invoice') {
+    stages = [
+      ['Gemini triage', true],
+      ['Rate-card quote', done(thread.quote)],
+      ['Human approval', done(p.done)],
+      ['PayPal invoice', done(thread.invoice)],
+      ['Reply draft + pay link', done(thread.invoice && thread.reply)],
+    ];
+  } else if (p.type === 'request_info') {
+    stages = [['Gemini triage', true], ['Rate-card check', true], ['Ask for missing details', done(thread.reply)]];
+  } else if (thread?.lookup) {
+    stages = [['Gemini triage', true], ['PayPal lookup', true], ['Reply draft', done(thread.reply)]];
+    if (p.type === 'send_reminder') stages.push(['Approve reminder', done(p.done)]);
+  } else if (p.type === 'reply_only') {
+    stages = [['Gemini triage', true], ['Reply draft', done(thread.reply)]];
+  } else {
+    stages = [['Gemini triage', true], ['No action needed', true]];
+  }
+  const firstOpen = stages.findIndex(([, d]) => !d);
   return `<div class="pipeline">${stages
-    .map(([name, done], i) => `<span class="stage ${done ? 'done' : i === firstOpen ? 'active' : ''}">${done ? '✓' : i + 1} ${esc(name)}</span>`)
+    .map(([name, d], i) => `<span class="stage ${d ? 'done' : i === firstOpen ? 'active' : ''}">${d ? '✓' : i + 1} ${esc(name)}</span>`)
     .join('<span class="arrow">›</span>')}</div>`;
 }
-
 function renderDetail(error) {
   const e = current();
   const root = $('#detail');
@@ -316,6 +328,13 @@ $('#chat-form').addEventListener('submit', async (ev) => {
   }
 });
 
+$('#suggest').addEventListener('click', (ev) => {
+  const b = ev.target.closest('.chip-btn');
+  if (!b) return;
+  $('#chat-input').value = b.textContent.trim();
+  $('#chat-form').requestSubmit();
+});
+
 // ---------- paste email ----------
 $('#btn-paste').addEventListener('click', () => $('#paste-dialog').showModal());
 $('#paste-form').addEventListener('submit', async (ev) => {
@@ -342,3 +361,5 @@ if (state.emails.length) {
   renderDetail();
 }
 loadInvoices();
+
+
