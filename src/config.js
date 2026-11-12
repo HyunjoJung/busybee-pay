@@ -32,7 +32,7 @@ export const settings = {
   port: Number(process.env.PORT || 3000),
   gemini: {
     apiKey: process.env.GEMINI_API_KEY || '',
-    models: [...new Set([...list(process.env.GEMINI_MODEL || 'gemini-3.5-flash'), ...list(process.env.GEMINI_FALLBACK_MODELS || 'gemini-flash-lite-latest')])],
+    models: [...new Set([...list(process.env.GEMINI_MODEL || 'gemini-flash-lite-latest'), ...list(process.env.GEMINI_FALLBACK_MODELS || 'gemini-3.1-flash-lite,gemini-3.5-flash')])],
     agentMaxSteps: Number(process.env.AGENT_MAX_STEPS || 8),
   },
   paypal: {

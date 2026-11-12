@@ -306,7 +306,7 @@ $('#chat-form').addEventListener('submit', async (ev) => {
     const out = await api('/api/agent', { method: 'POST', body: { message, history: state.chat } });
     thinking.remove();
     if (out.steps?.length) addMsg('tools', out.steps.map((s) => `▸ ${esc(s.tool)}(${esc(JSON.stringify(s.args))})`).join('\n'));
-    addMsg('bot', esc(out.text));
+    addMsg('bot', esc(out.text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'));
     for (const p of out.pending || []) {
       const div = addMsg('pending', `<b>Approval needed:</b> ${esc(p.tool)} ${esc(JSON.stringify(p.args))}<div class="actions"><button class="btn primary small" data-act="approve">Approve</button><button class="btn ghost small" data-act="reject">Reject</button></div>`);
       div.addEventListener('click', async (e2) => {

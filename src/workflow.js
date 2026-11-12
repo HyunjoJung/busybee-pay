@@ -65,7 +65,8 @@ export async function analyze(emailId) {
       : { type: 'reply_only', title: latest ? `Invoice ${latest.number} is ${latest.status}` : 'No PayPal invoice found for this customer' };
     facts = {
       situation: latest ? 'Answer using the PayPal invoice status below (status values come from the PayPal Invoicing API).' : 'No PayPal invoice was found for this customer; ask for the invoice number.',
-      invoices: invoices.slice(0, 3).map((i) => ({ number: i.number, status: i.status, total: i.total, paid: i.paid, currency: i.currency_code, last_payment: i.last_payment, payer_link: unpaid ? i.payer_link : undefined })),
+      latest_invoice: latest ? { number: latest.number, status: latest.status, total: latest.total, paid: latest.paid, currency: latest.currency_code, last_payment: latest.last_payment, payer_link: unpaid ? latest.payer_link : undefined } : null,
+      older_invoices_for_this_customer: Math.max(0, invoices.length - 1),
     };
   } else {
     proposal = { type: 'no_action', title: 'No customer action needed' };
